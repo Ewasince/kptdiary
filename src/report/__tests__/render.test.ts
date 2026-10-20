@@ -207,6 +207,19 @@ describe('renderReport', () => {
     expect(html).toContain('&quot;q&quot;');
   });
 
+  test('escapes numbers too, in case a stored value is not a number', () => {
+    const evil = '<img onerror=x>' as unknown as number;
+    const html = render([
+      completeEntry({
+        emotions: [{ name: 'вина', intensity: evil }],
+        outcomeEmotions: [{ name: 'вина', intensity: evil }],
+        thoughts: [thought({ belief: evil, responseBelief: evil, beliefAfter: evil })],
+      }),
+    ]);
+    expect(html).not.toContain('<img');
+    expect(html).toContain('&lt;img onerror=x&gt;');
+  });
+
   test('has no external resources', () => {
     const html = render([completeEntry(), incompleteEntry()]);
     expect(html).not.toMatch(/https?:\/\//);

@@ -40,12 +40,17 @@ export function formatDateTime(iso: string, referenceIso?: string): string {
   return `${day}, ${time}`;
 }
 
+/** Numbers are escaped as well: a stored value is not guaranteed to be a number. */
+function num(value: number): string {
+  return escapeHtml(String(value));
+}
+
 function textOrMissing(text: string): string {
   return text.trim() === '' ? NOT_RECORDED : escapeHtml(text);
 }
 
 function percent(value: number | null): string {
-  return value === null ? NO_NUMBER : `${value}%`;
+  return value === null ? NO_NUMBER : `${num(value)}%`;
 }
 
 function chip(rating: EmotionRating, custom: CustomEmotion[], after = false): string {
@@ -53,7 +58,7 @@ function chip(rating: EmotionRating, custom: CustomEmotion[], after = false): st
   const label =
     rating.intensity === null
       ? escapeHtml(rating.name)
-      : `${escapeHtml(rating.name)} · ${rating.intensity}`;
+      : `${escapeHtml(rating.name)} · ${num(rating.intensity)}`;
   return `<span class="chip${after ? ' after' : ''}" style="background: ${colors.background}; border-color: ${colors.border}">${label}</span>`;
 }
 
@@ -96,7 +101,7 @@ function thoughtRow(thought: Thought): string {
   const response =
     thought.responseBelief === null
       ? textOrMissing(thought.response)
-      : `${textOrMissing(thought.response)} <span class="muted">(ответ: ${thought.responseBelief}%)</span>`;
+      : `${textOrMissing(thought.response)} <span class="muted">(ответ: ${num(thought.responseBelief)}%)</span>`;
   const belief = `<span class="pair"><b>${percent(thought.belief)}</b> → <b class="after">${percent(thought.beliefAfter)}</b></span>`;
   return `<tr><td>${textOrMissing(thought.text)}</td><td>${response}</td><td>${belief}</td></tr>`;
 }
@@ -133,8 +138,8 @@ export function renderReport(input: ReportInput): string {
     '<header>' +
     `<h1>${TITLE}</h1>` +
     `<p class="period">${escapeHtml(periodLabel(input.period))}</p>` +
-    `<p class="counts"><span class="count">${input.entries.length}</span> записей<span class="sep"> · </span>` +
-    `<span class="count">${completed}</span> завершены</p>` +
+    `<p class="counts"><span class="count">${num(input.entries.length)}</span> записей<span class="sep"> · </span>` +
+    `<span class="count">${num(completed)}</span> завершены</p>` +
     '</header>';
   const body = input.entries.map((entry) => entryCard(entry, input)).join('\n');
   const footer = `<footer>Сформировано ${formatDateTime(input.generatedAt)}</footer>`;

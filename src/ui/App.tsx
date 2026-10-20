@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { Layout } from './components/Layout';
 import { UpdateToast } from './components/UpdateToast';
+import { ErrorBoundary } from './ErrorBoundary';
 import { useRoute } from './router';
 import { EntryEditor } from './screens/EntryEditor';
 import { EntryList } from './screens/EntryList';
@@ -23,7 +24,10 @@ export default function App() {
   const sw = useSyncExternalStore(subscribe, getSnapshot);
   return (
     <DiaryProvider>
-      <Screen />
+      {/* The update toast stays outside: a new version may be the fix for the error. */}
+      <ErrorBoundary>
+        <Screen />
+      </ErrorBoundary>
       <UpdateToast needRefresh={sw.needRefresh} onUpdate={sw.update} />
     </DiaryProvider>
   );

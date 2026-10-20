@@ -1181,3 +1181,26 @@ body:has(.layout-phone .editor-footer) .update-toast {
     bottom: 24px;
   }
 }
+
+/* Error boundary fallback */
+
+.crash {
+  padding: 48px 0;
+  text-align: center;
+}
+
+.crash h1 {
+  margin: 0 0 8px;
+}
+
+.crash p {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.crash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
