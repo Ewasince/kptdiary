@@ -17,3 +17,282 @@ body {
   color: var(--text);
   background: #fff;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+/* Layout */
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.layout-phone .container {
+  /* Room for the fixed bottom nav and the iOS home indicator. */
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  color: var(--muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.bottom-nav a[aria-current='page'] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 10px 16px;
+}
+
+.app-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.topbar-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.topbar-nav a[aria-current='page'] {
+  color: var(--accent);
+  background: var(--panel);
+  font-weight: 600;
+}
+
+.topbar .button-primary {
+  margin-left: auto;
+}
+
+.banner {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--warn-text);
+  background: var(--warn-bg);
+}
+
+/* Controls */
+
+.button-primary {
+  min-height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  background: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Emotion chips */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.chip-after {
+  color: var(--ok-text);
+}
+
+.chip-remove {
+  /* 44 px hit area without growing the chip. */
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px -14px -12px -8px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: var(--warn-text);
+  background: var(--warn-bg);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Entry list */
+
+.page-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.page-heading-aside {
+  color: var(--muted);
+}
+
+.new-entry {
+  width: 100%;
+}
+
+.empty-state {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-state p {
+  margin: 0 0 16px;
+}
+
+.day-heading {
+  margin: 24px 0 8px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.entry-rows {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.entry-card:hover {
+  background: var(--panel);
+}
+
+.entry-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry-time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-situation {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.entry-emotions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Desktop: the layout class follows useIsDesktop(), so CSS and markup always agree. */
+
+.layout-desktop .container {
+  padding: 24px 16px 48px;
+}
+
+.layout-desktop .entry-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 360px;
+  align-items: center;
+  gap: 16px;
+}
+
+.layout-desktop .entry-emotions .badge {
+  margin-left: auto;
+}
