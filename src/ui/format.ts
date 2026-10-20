@@ -51,3 +51,17 @@ export function plural(n: number, forms: readonly [string, string, string]): str
   if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms[1];
   return forms[2];
 }
+
+/** Local `"YYYY-MM-DDTHH:mm"` for `<input type="datetime-local">`. */
+export function isoToLocalInput(iso: string): string {
+  const date = new Date(iso);
+  const day = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+  return `${day}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/** ISO datetime from a `datetime-local` value read as local time; null when empty or invalid. */
+export function localInputToIso(value: string): string | null {
+  if (value === '') return null;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}

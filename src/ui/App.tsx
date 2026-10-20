@@ -1,5 +1,6 @@
 import { Layout } from './components/Layout';
 import { useRoute } from './router';
+import { EntryEditor } from './screens/EntryEditor';
 import { EntryList } from './screens/EntryList';
 import { DiaryProvider } from './useDiary';
 
@@ -8,8 +9,8 @@ function Screen() {
   return (
     <Layout route={route}>
       {route.name === 'list' && <EntryList />}
-      {/* Placeholders until the editor (Task 11) and export (Task 12) screens land. */}
-      {route.name === 'entry' && <p>Запись</p>}
+      {route.name === 'entry' && <EntryEditor key={route.id} id={route.id} />}
+      {/* Placeholder until the export screen (Task 12) lands. */}
       {route.name === 'export' && <p>Экспорт</p>}
     </Layout>
   );

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { formatDayHeading, formatTime, plural } from '../format';
+import { formatDayHeading, formatTime, isoToLocalInput, localInputToIso, plural } from '../format';
 
 const local = (y: number, m: number, d: number, h = 12, min = 0) =>
   new Date(y, m - 1, d, h, min).toISOString();
@@ -40,4 +40,15 @@ test('plural picks the Russian form', () => {
     'запись',
     'записей',
   ]);
+});
+
+test('isoToLocalInput formats local time for datetime-local', () => {
+  expect(isoToLocalInput(local(2026, 10, 19, 18, 40))).toBe('2026-10-19T18:40');
+  expect(isoToLocalInput(local(2026, 1, 5, 7, 5))).toBe('2026-01-05T07:05');
+});
+
+test('localInputToIso reads local time and rejects empty or invalid input', () => {
+  expect(localInputToIso('2026-10-19T18:40')).toBe(local(2026, 10, 19, 18, 40));
+  expect(localInputToIso('')).toBeNull();
+  expect(localInputToIso('garbage')).toBeNull();
 });

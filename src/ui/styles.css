@@ -657,3 +657,216 @@ h1 {
   font: inherit;
   cursor: pointer;
 }
+
+/* Entry editor */
+
+.icon-button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--panel);
+}
+
+.button-dashed {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px dashed var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-wide {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.editor-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-date {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+.editor-section {
+  margin-top: 24px;
+}
+
+.editor-heading {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.editor-hint {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.editor-heading + .chip-row,
+.editor-heading + .thought-list {
+  margin-top: 10px;
+}
+
+.editor-textarea {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.editor-intensities {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.thought-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.thought-card {
+  display: grid;
+  gap: 14px;
+  padding: 12px 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.thought-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -6px -8px -6px 0;
+}
+
+.thought-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.thought-divider {
+  width: 100%;
+  margin: 2px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.thought-response {
+  display: grid;
+  gap: 6px;
+}
+
+.thought-label {
+  font-weight: 500;
+}
+
+.thought-hint {
+  margin: 6px 0 0;
+  color: var(--warn-text);
+  font-size: 14px;
+}
+
+.editor-footer {
+  /* Sticks above the fixed bottom nav (56 px plus the iOS home indicator). */
+  position: sticky;
+  bottom: calc(56px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px -16px 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: #fff;
+}
+
+.editor-note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Editor on desktop: white panels on a grey page. */
+
+body:has(.layout-desktop .editor) {
+  background: var(--panel);
+}
+
+.layout-desktop .editor-top {
+  gap: 12px;
+}
+
+.layout-desktop .editor-date {
+  flex: none;
+  width: 240px;
+}
+
+.layout-desktop .editor-top .icon-button:last-child {
+  margin-left: auto;
+}
+
+.layout-desktop .editor-section {
+  margin-top: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.layout-desktop .thought-card {
+  padding: 14px 18px 18px;
+}
+
+.layout-desktop .thought-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 16px;
+}
+
+.layout-desktop .editor-footer {
+  position: static;
+  margin: 16px 0 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}

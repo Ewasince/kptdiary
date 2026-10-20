@@ -155,7 +155,7 @@ test('new entry button adds entry and navigates', async () => {
   const user = userEvent.setup();
   render(<App />);
   await user.click(screen.getByRole('button', { name: 'Новая запись' }));
-  expect(await screen.findByText('Запись')).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: 'Ситуация' })).toBeInTheDocument();
   expect(window.location.hash).toMatch(/^#\/entry\//);
   await waitFor(() => expect(storedEntries()).toHaveLength(1));
   const [created] = storedEntries();
