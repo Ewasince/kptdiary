@@ -75,6 +75,28 @@ test('shows corrupted banner', () => {
   );
 });
 
+test('shows the quota banner when a save runs out of space', async () => {
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    throw new DOMException('full', 'QuotaExceededError');
+  });
+  render(<App />);
+  await userEvent.click(screen.getByRole('button', { name: 'Новая запись' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    'Не удалось сохранить, место закончилось. Сделайте бэкап.',
+  );
+});
+
+test('shows a banner when a save fails for another reason', async () => {
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    throw new Error('storage is gone');
+  });
+  render(<App />);
+  await userEvent.click(screen.getByRole('button', { name: 'Новая запись' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent(
+    'Не удалось сохранить данные. Сделайте бэкап.',
+  );
+});
+
 test('shows empty state with button', () => {
   render(<App />);
   expect(screen.getByText('Записей пока нет')).toBeInTheDocument();

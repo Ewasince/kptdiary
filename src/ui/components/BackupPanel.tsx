@@ -10,6 +10,7 @@ import { plural } from '../format';
 import { useDiary } from '../useDiary';
 
 const READ_FAILED = 'Не удалось прочитать файл';
+const APPLY_FAILED = 'Импорт не сохранён: место закончилось или хранилище недоступно';
 
 /** Whole calendar days from one `YYYY-MM-DD` key to another. */
 function daysBetween(fromKey: string, toKey: string): number {
@@ -76,9 +77,10 @@ export function BackupPanel() {
 
   function onApply() {
     if (pending === null) return;
-    replace(mergeDiaries(diary, pending));
+    const saved = replace(mergeDiaries(diary, pending));
     setPending(null);
-    setApplied(true);
+    if (saved) setApplied(true);
+    else setError(APPLY_FAILED);
   }
 
   const summary = pending && mergeSummary(diary, pending);

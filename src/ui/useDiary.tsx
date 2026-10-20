@@ -24,8 +24,11 @@ export interface DiaryContextValue {
   saveError: StorageError | null;
   /** Applies `fn` to the current diary and schedules a debounced save. */
   update(fn: (d: Diary) => Diary): void;
-  /** Replaces the whole diary and saves it immediately. */
-  replace(diary: Diary): void;
+  /**
+   * Replaces the whole diary and saves it immediately; true when the save succeeded.
+   * The state is replaced either way.
+   */
+  replace(diary: Diary): boolean;
   now(): string;
 }
 
@@ -62,15 +65,31 @@ export function DiaryProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const onBeforeUnload = () => {
+    // Write pending changes as soon as the page may go away: mobile browsers often
+    // kill a hidden page without firing beforeunload.
+    const flush = () => {
+      try {
+        saver.flush();
+      } catch (e) {
+        setSaveError(e as StorageError);
+      }
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flush();
+    };
+    window.addEventListener('beforeunload', flush);
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      window.removeEventListener('beforeunload', flush);
+      window.removeEventListener('pagehide', flush);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       try {
         saver.flush();
       } catch {
-        // The page is going away; nothing left to report the error to.
+        // The provider is going away; nothing left to report the error to.
       }
     };
-    window.addEventListener('beforeunload', onBeforeUnload);
-    return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [saver]);
 
   useEffect(() => {
@@ -108,7 +127,7 @@ export function DiaryProvider({ children }: { children: ReactNode }) {
   );
 
   const replace = useCallback(
-    (next: Diary) => {
+    (next: Diary): boolean => {
       diaryRef.current = next;
       setDiary(next);
       // Going through the saver drops any pending debounced write of older state.
@@ -117,8 +136,10 @@ export function DiaryProvider({ children }: { children: ReactNode }) {
         saver.flush();
         // The unreadable stored value has just been overwritten.
         setCorrupted(false);
+        return true;
       } catch (e) {
         setSaveError(e as StorageError);
+        return false;
       }
     },
     [saver],

@@ -173,3 +173,56 @@ test('a newer write from another tab drops our pending older save', () => {
   act(() => vi.advanceTimersByTime(300));
   expect(localStorage.getItem(DIARY_KEY)).toBe(written);
 });
+
+test('replace reports whether the save succeeded', () => {
+  const { result } = renderHook(() => useDiary(), { wrapper });
+  let saved: boolean | undefined;
+  act(() => {
+    saved = result.current.replace(diaryWith(entryAt('a', '2026-10-20T10:00:00.000Z')));
+  });
+  expect(saved).toBe(true);
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    throw new DOMException('full', 'QuotaExceededError');
+  });
+  const next = diaryWith(entryAt('b', '2026-10-20T10:00:00.000Z'));
+  act(() => {
+    saved = result.current.replace(next);
+  });
+  expect(saved).toBe(false);
+  expect(result.current.diary).toEqual(next);
+  expect(result.current.saveError?.kind).toBe('quota');
+});
+
+function addEntry(result: { current: ReturnType<typeof useDiary> }) {
+  act(() => {
+    result.current.update((d) => ({ ...d, entries: [entryAt('a', '2026-10-20T10:00:00.000Z')] }));
+  });
+  expect(localStorage.getItem(DIARY_KEY)).toBeNull();
+}
+
+test('pending writes are flushed on pagehide', () => {
+  vi.useFakeTimers();
+  const { result } = renderHook(() => useDiary(), { wrapper });
+  addEntry(result);
+  window.dispatchEvent(new Event('pagehide'));
+  expect(localStorage.getItem(DIARY_KEY)).not.toBeNull();
+});
+
+test('pending writes are flushed when the page is hidden', () => {
+  vi.useFakeTimers();
+  const { result } = renderHook(() => useDiary(), { wrapper });
+  addEntry(result);
+  document.dispatchEvent(new Event('visibilitychange'));
+  expect(localStorage.getItem(DIARY_KEY)).toBeNull();
+  vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden');
+  document.dispatchEvent(new Event('visibilitychange'));
+  expect(localStorage.getItem(DIARY_KEY)).not.toBeNull();
+});
+
+test('pending writes are flushed when the provider unmounts', () => {
+  vi.useFakeTimers();
+  const { result, unmount } = renderHook(() => useDiary(), { wrapper });
+  addEntry(result);
+  unmount();
+  expect(localStorage.getItem(DIARY_KEY)).not.toBeNull();
+});

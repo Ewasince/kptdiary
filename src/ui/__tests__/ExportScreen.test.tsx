@@ -197,6 +197,24 @@ test('import shows summary then applies', async () => {
   expect(stored().customEmotions).toEqual([{ name: 'тоска', family: 'sadness' }]);
 });
 
+test('import that cannot be saved says so', async () => {
+  const backup = { ...emptyDiary(), entries: [entry(local(2026, 10, 18))] };
+  renderExport();
+  await userEvent.upload(
+    screen.getByLabelText('Файл бэкапа'),
+    new File([JSON.stringify(backup)], 'b.json', { type: 'application/json' }),
+  );
+  await screen.findByText('Новых записей: 1, обновлённых: 0, своих эмоций: 0');
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+    throw new DOMException('full', 'QuotaExceededError');
+  });
+  await userEvent.click(button('Применить'));
+  expect(
+    screen.getByText('Импорт не сохранён: место закончилось или хранилище недоступно'),
+  ).toBeInTheDocument();
+  expect(screen.queryByText('Импорт применён')).not.toBeInTheDocument();
+});
+
 test('import rejects newer schema', async () => {
   renderExport();
   await userEvent.upload(
