@@ -1,5 +1,7 @@
 /** Value the controls start from when nothing has been entered yet (spec §5.3). */
-const NULL_START = 50;
+export const NULL_START = 50;
+
+export type IntensityStep = -10 | -5 | -1 | 1 | 5 | 10;
 
 export function clampIntensity(value: number, min: number, max = 100): number {
   return Math.min(max, Math.max(min, Math.round(value)));
@@ -12,7 +14,7 @@ export function clampIntensity(value: number, min: number, max = 100): number {
  */
 export function stepIntensity(
   value: number | null,
-  step: -10 | -5 | -1 | 1 | 5 | 10,
+  step: IntensityStep,
   min: number,
   max = 100,
 ): number {
