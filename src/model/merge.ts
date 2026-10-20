@@ -72,3 +72,23 @@ export function mergeSummary(local: Diary, incoming: Diary): MergeSummary {
   }
   return { added, updated, customEmotions };
 }
+
+/**
+ * Whether `diary` holds something `other` lacks: an entry `other` does not have or a
+ * strictly newer version of one, a custom emotion name `other` lacks, or a later report
+ * export. Entry order, ties and custom emotion family conflicts (which merging resolves
+ * in favour of local) do not count, so two tabs merging each other's writes settle
+ * instead of re-saving over each other forever.
+ */
+export function isAheadOf(diary: Diary, other: Diary): boolean {
+  const otherById = new Map(other.entries.map((e) => [e.id, e]));
+  for (const entry of diary.entries) {
+    const o = otherById.get(entry.id);
+    if (!o || isNewer(entry, o)) return true;
+  }
+  const otherNames = new Set(other.customEmotions.map((c) => normalizeEmotionName(c.name)));
+  if (diary.customEmotions.some((c) => !otherNames.has(normalizeEmotionName(c.name)))) {
+    return true;
+  }
+  return laterOf(diary.lastReportExportAt, other.lastReportExportAt) !== other.lastReportExportAt;
+}

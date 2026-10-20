@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { mergeDiaries, mergeSummary } from '../merge';
+import { isAheadOf, mergeDiaries, mergeSummary } from '../merge';
 import type { Diary, Entry } from '../types';
 
 function entry(id: string, updatedAt: string, patch: Partial<Entry> = {}): Entry {
@@ -145,5 +145,36 @@ describe('mergeSummary', () => {
       ],
     });
     expect(mergeSummary(local, incoming)).toEqual({ added: 2, updated: 1, customEmotions: 1 });
+  });
+});
+
+describe('isAheadOf', () => {
+  test('is false for the same content in another order', () => {
+    const a = diary({ entries: [entry('a', T1), entry('b', T1)] });
+    const b = diary({ entries: [entry('b', T1), entry('a', T1)] });
+    expect(isAheadOf(a, b)).toBe(false);
+  });
+
+  test('ignores ties and custom emotion family conflicts, which merging keeps local', () => {
+    const a = diary({
+      entries: [entry('a', T1, { situation: 'mine' })],
+      customEmotions: [{ name: 'Тоска', family: 'sadness' }],
+    });
+    const b = diary({
+      entries: [entry('a', T1, { situation: 'theirs' })],
+      customEmotions: [{ name: 'тоска', family: 'fear' }],
+    });
+    expect(isAheadOf(a, b)).toBe(false);
+  });
+
+  test('is true for a missing or newer entry, a new custom emotion or a later export', () => {
+    const base = diary({ entries: [entry('a', T1)] });
+    expect(isAheadOf(diary({ entries: [entry('a', T1), entry('b', T1)] }), base)).toBe(true);
+    expect(isAheadOf(diary({ entries: [entry('a', T2)] }), base)).toBe(true);
+    expect(
+      isAheadOf({ ...base, customEmotions: [{ name: 'Азарт', family: null }] }, base),
+    ).toBe(true);
+    expect(isAheadOf({ ...base, lastReportExportAt: T2 }, base)).toBe(true);
+    expect(isAheadOf(base, { ...base, lastReportExportAt: T2 })).toBe(false);
   });
 });

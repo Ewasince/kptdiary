@@ -48,7 +48,7 @@ test('round-trips a diary', () => {
 
 test('reports corrupted JSON and leaves value untouched', () => {
   localStorage.setItem(DIARY_KEY, '{not json');
-  expect(loadDiary()).toEqual({ diary: emptyDiary(), corrupted: true });
+  expect(loadDiary()).toEqual({ diary: emptyDiary(), corrupted: true, raw: '{not json' });
   expect(localStorage.getItem(DIARY_KEY)).toBe('{not json');
 });
 
@@ -93,4 +93,15 @@ test('throws StorageError quota when setItem throws QuotaExceededError', () => {
   }
   expect(caught).toBeInstanceOf(StorageError);
   expect((caught as StorageError).kind).toBe('quota');
+});
+
+test('cancel drops the pending write', () => {
+  vi.useFakeTimers();
+  const setItem = vi.spyOn(Storage.prototype, 'setItem');
+  const saver = createDebouncedSaver(300);
+  saver.save(sampleDiary());
+  saver.cancel();
+  vi.advanceTimersByTime(300);
+  saver.flush();
+  expect(setItem).not.toHaveBeenCalled();
 });
