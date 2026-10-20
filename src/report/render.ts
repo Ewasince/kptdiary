@@ -2,6 +2,7 @@ import { isComplete } from '../model/entry';
 import { chipColors, lookupEmotion } from '../model/emotions';
 import { pairEmotions } from '../model/pairs';
 import { MONTHS_GENITIVE, periodLabel, type Period } from '../model/period';
+import { plural } from '../model/plural';
 import type { CustomEmotion, EmotionRating, Entry, Thought } from '../model/types';
 import { REPORT_CSS } from './styles';
 
@@ -15,6 +16,8 @@ export interface ReportInput {
 const TITLE = 'Протокол дисфункциональных мыслей';
 const NOT_RECORDED = '<span class="muted">не записано</span>';
 const NO_NUMBER = '—';
+const ENTRY_FORMS = ['запись', 'записи', 'записей'] as const;
+const COMPLETED_FORMS = ['завершена', 'завершены', 'завершены'] as const;
 
 const HTML_ESCAPES: Record<string, string> = {
   '&': '&amp;',
@@ -127,13 +130,15 @@ function entryCard(entry: Entry, input: ReportInput): string {
 
 /** Standalone HTML document of the therapist report (spec §5.6). */
 export function renderReport(input: ReportInput): string {
+  const total = input.entries.length;
   const completed = input.entries.filter(isComplete).length;
   const header =
     '<header>' +
     `<h1>${TITLE}</h1>` +
     `<p class="period">${escapeHtml(periodLabel(input.period))}</p>` +
-    `<p class="counts"><span class="count">${num(input.entries.length)}</span> записей<span class="sep"> · </span>` +
-    `<span class="count">${num(completed)}</span> завершены</p>` +
+    `<p class="counts"><span class="count">${num(total)}</span> ${plural(total, ENTRY_FORMS)}` +
+    '<span class="sep"> · </span>' +
+    `<span class="count">${num(completed)}</span> ${plural(completed, COMPLETED_FORMS)}</p>` +
     '</header>';
   const body = input.entries.map((entry) => entryCard(entry, input)).join('\n');
   const footer = `<footer>Сформировано ${formatDateTime(input.generatedAt)}</footer>`;

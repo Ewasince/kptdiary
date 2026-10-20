@@ -117,9 +117,18 @@ describe('renderReport', () => {
       label: el.nextSibling?.textContent?.trim(),
     }));
     expect(counts).toEqual([
-      { n: '2', label: 'записей' },
-      { n: '1', label: 'завершены' },
+      { n: '2', label: 'записи' },
+      { n: '1', label: 'завершена' },
     ]);
+  });
+
+  test('pluralizes the counts', () => {
+    const counts = (entries: Entry[]) =>
+      parse(render(entries)).querySelector('.counts')!.textContent;
+    expect(counts([completeEntry()])).toBe('1 запись · 1 завершена');
+    expect(counts([incompleteEntry()])).toBe('1 запись · 0 завершены');
+    const five = ['a', 'b', 'c', 'd', 'e'].map((id) => completeEntry({ id }));
+    expect(counts(five)).toBe('5 записей · 5 завершены');
   });
 
   test('renders situation emotions and thought rows', () => {

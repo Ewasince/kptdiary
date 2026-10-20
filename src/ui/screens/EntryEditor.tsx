@@ -2,7 +2,7 @@ import { useEffect, useId, useRef } from 'react';
 import { normalizeEmotionName } from '../../model/emotions';
 import { createThought, isEmptyEntry, removeEntry, replaceEntry, touch } from '../../model/entry';
 import { recentEmotions } from '../../model/recent';
-import type { EmotionFamily, Entry, Thought } from '../../model/types';
+import type { Diary, EmotionFamily, Entry, Thought } from '../../model/types';
 import { EmotionSection } from '../components/EmotionSection';
 import { ThoughtCard } from '../components/ThoughtCard';
 import { isoToLocalInput, localInputToIso } from '../format';
@@ -27,6 +27,15 @@ function TrashIcon() {
 }
 
 /**
+ * Removes the entry physically when it is still empty in the diary being updated, which
+ * may be newer than the last render (another tab may have filled it in meanwhile).
+ */
+function removeIfEmpty(d: Diary, id: string): Diary {
+  const stored = d.entries.find((e) => e.id === id);
+  return stored !== undefined && isEmptyEntry(stored) ? removeEntry(d, id) : d;
+}
+
+/**
  * Removes the entry physically when the editor goes away and the entry is still empty
  * (spec §3). The check waits a microtask so StrictMode's simulated unmount, which mounts
  * again synchronously, does not delete a fresh entry.
@@ -45,7 +54,7 @@ function useRemoveIfEmptyOnLeave(id: string, entry: Entry | undefined) {
       queueMicrotask(() => {
         const current = entryRef.current;
         if (!mountedRef.current && current !== undefined && isEmptyEntry(current)) {
-          update((d) => removeEntry(d, id));
+          update((d) => removeIfEmpty(d, id));
         }
       });
     };
@@ -96,16 +105,18 @@ export function EntryEditor({ id }: { id: string }) {
     if (!window.confirm('Удалить запись?')) return;
     const at = now();
     // An empty entry has been nowhere else, so it needs no tombstone (spec §3).
-    update((d) =>
-      isEmptyEntry(current)
+    update((d) => {
+      const stored = d.entries.find((e) => e.id === id);
+      if (stored === undefined) return d;
+      return isEmptyEntry(stored)
         ? removeEntry(d, id)
-        : replaceEntry(d, { ...current, deletedAt: at, updatedAt: at }),
-    );
+        : replaceEntry(d, { ...stored, deletedAt: at, updatedAt: at });
+    });
     navigate({ name: 'list' });
   }
 
   function onDone() {
-    if (isEmptyEntry(current)) update((d) => removeEntry(d, id));
+    if (isEmptyEntry(current)) update((d) => removeIfEmpty(d, id));
     navigate({ name: 'list' });
   }
 

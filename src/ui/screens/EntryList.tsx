@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { isComplete } from '../../model/entry';
+import { isComplete, isEmptyEntry } from '../../model/entry';
 import { pairEmotions } from '../../model/pairs';
 import { localDayKey } from '../../model/period';
 import type { CustomEmotion, Entry } from '../../model/types';
@@ -115,7 +115,10 @@ export function EntryList() {
   const isDesktop = useIsDesktop();
   const onNew = useNewEntry();
   const current = now();
-  const entries = diary.entries.filter((entry) => entry.deletedAt === null);
+  // An empty entry is only left behind when the app was closed mid-creation.
+  const entries = diary.entries.filter(
+    (entry) => entry.deletedAt === null && !isEmptyEntry(entry),
+  );
   const unfinished = entries.filter((entry) => !isComplete(entry)).length;
 
   const newButton = (

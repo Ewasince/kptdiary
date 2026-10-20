@@ -146,6 +146,19 @@ describe('mergeSummary', () => {
     });
     expect(mergeSummary(local, incoming)).toEqual({ added: 2, updated: 1, customEmotions: 1 });
   });
+
+  test('incoming deletions of entries missing locally are not counted as added', () => {
+    const local = diary({ entries: [entry('a', T1)] });
+    const incoming = diary({
+      entries: [
+        entry('gone', T2, { deletedAt: T2 }),
+        entry('new', T1),
+        entry('a', T2, { deletedAt: T2 }),
+      ],
+    });
+    expect(mergeSummary(local, incoming)).toEqual({ added: 1, updated: 1, customEmotions: 0 });
+    expect(mergeDiaries(local, incoming).entries.map((e) => e.id)).toEqual(['a', 'gone', 'new']);
+  });
 });
 
 describe('isAheadOf', () => {

@@ -61,8 +61,10 @@ export function mergeSummary(local: Diary, incoming: Diary): MergeSummary {
   let updated = 0;
   for (const i of incoming.entries) {
     const l = localById.get(i.id);
-    if (!l) added++;
-    else if (isNewer(i, l)) updated++;
+    // An incoming deletion of an entry we never had is merged but adds nothing visible.
+    if (!l) {
+      if (i.deletedAt === null) added++;
+    } else if (isNewer(i, l)) updated++;
   }
   const localNames = new Set(local.customEmotions.map((c) => normalizeEmotionName(c.name)));
   const incomingNames = new Set(incoming.customEmotions.map((c) => normalizeEmotionName(c.name)));

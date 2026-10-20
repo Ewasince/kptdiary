@@ -250,7 +250,32 @@ test('backup download sets last backup', async () => {
   expect(parsed.exportedAt).toBe(NOW);
   expect(parsed.entries).toHaveLength(1);
   expect(localStorage.getItem(LAST_BACKUP_KEY)).toBe(NOW);
-  expect(screen.getByText('Последний бэкап: 20 октября, 0 дней назад')).toBeInTheDocument();
+  expect(screen.getByText('Последний бэкап: сегодня')).toBeInTheDocument();
+});
+
+test('backup line still updates when the time cannot be stored', async () => {
+  const setItem = Storage.prototype.setItem;
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(function (
+    this: Storage,
+    key: string,
+    value: string,
+  ) {
+    if (key === LAST_BACKUP_KEY) throw new DOMException('full', 'QuotaExceededError');
+    setItem.call(this, key, value);
+  });
+  renderExport();
+  await userEvent.click(button('Скачать JSON'));
+  expect(downloadText).toHaveBeenCalledTimes(1);
+  expect(screen.getByText('Последний бэкап: сегодня')).toBeInTheDocument();
+});
+
+test('backup hint says import carries deletions over', () => {
+  renderExport();
+  expect(
+    screen.getByText('Импорт добавляет новые записи, обновляет изменённые и переносит удаления.', {
+      exact: false,
+    }),
+  ).toBeInTheDocument();
 });
 
 test('backup line says when there was none', () => {

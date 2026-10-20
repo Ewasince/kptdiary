@@ -173,6 +173,22 @@ test('renders before-after pair in one row', () => {
   expect(pair).toContainElement(screen.getByText('вина 30'));
 });
 
+test('hides empty entries left over from an interrupted creation', () => {
+  seed([
+    createEntry(local(2026, 10, 20, 9)),
+    entry(local(2026, 10, 20, 10), { situation: 'Есть' }),
+  ]);
+  render(<App />);
+  expect(screen.getAllByRole('listitem')).toHaveLength(1);
+  expect(screen.getByText('Есть')).toBeInTheDocument();
+});
+
+test('shows the empty state when only empty entries are stored', () => {
+  seed([createEntry(local(2026, 10, 20, 9))]);
+  render(<App />);
+  expect(screen.getByText('Записей пока нет')).toBeInTheDocument();
+});
+
 test('new entry button adds entry and navigates', async () => {
   const user = userEvent.setup();
   render(<App />);

@@ -25,6 +25,7 @@ function lastBackupLine(lastBackupAt: string | null, now: string): string {
   if (lastBackupAt === null) return 'Последний бэкап: ещё не было';
   const key = localDayKey(lastBackupAt);
   const days = daysBetween(key, localDayKey(now));
+  if (days === 0) return 'Последний бэкап: сегодня';
   return `Последний бэкап: ${formatDayMonth(key)}, ${days} ${plural(days, ['день', 'дня', 'дней'])} назад`;
 }
 
@@ -55,7 +56,11 @@ export function BackupPanel() {
     const at = now();
     const json = JSON.stringify({ ...diary, exportedAt: at }, null, 2);
     downloadText(`kptdiary-${localDayKey(at)}.json`, json, 'application/json');
-    setLastBackupAt(at);
+    try {
+      setLastBackupAt(at);
+    } catch {
+      // Storage is full or blocked; the line below still shows this backup for now.
+    }
     setLastBackup(at);
   }
 
@@ -92,8 +97,8 @@ export function BackupPanel() {
         <h2 id="backup-heading">Бэкап и перенос</h2>
       </div>
       <p className="panel-hint">
-        Файл со всеми данными. Импорт добавляет новые записи и обновляет изменённые, ничего не
-        стирает.
+        Файл со всеми данными. Импорт добавляет новые записи, обновляет изменённые и переносит
+        удаления.
       </p>
       <div className="panel-actions">
         <button type="button" className="button-primary" onClick={onDownload}>

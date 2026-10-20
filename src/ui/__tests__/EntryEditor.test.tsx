@@ -212,3 +212,55 @@ test('empty entry removed when another entry is opened', async () => {
   expect(stored().entries).toHaveLength(1);
   expect(window.location.hash).toBe(`#/entry/${stored().entries[0].id}`);
 });
+
+test('leaving keeps an empty entry that was filled in the meantime', async () => {
+  const empty = createEntry(NOW);
+  seed(empty);
+  render(<App />);
+  // Leave the editor: its removal check runs a microtask later.
+  act(() => {
+    window.location.hash = '#/';
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  });
+  // Before that check, another tab fills the entry in.
+  const filled = { ...empty, situation: 'Из другой вкладки', updatedAt: local(2026, 10, 20, 13) };
+  const written = JSON.stringify({ ...emptyDiary(), entries: [filled] });
+  localStorage.setItem(DIARY_KEY, written);
+  act(() => {
+    window.dispatchEvent(new StorageEvent('storage', { key: DIARY_KEY, newValue: written }));
+  });
+  await act(() => Promise.resolve());
+  expect(screen.getByText('Из другой вкладки')).toBeInTheDocument();
+});
+
+test('the result picker lists this entry\'s emotions first among recent ones', async () => {
+  const other = {
+    ...createEntry(local(2026, 10, 19)),
+    situation: 'Другая',
+    emotions: [{ name: 'тревога', intensity: 50 }],
+    outcomeEmotions: [{ name: 'тревога', intensity: 30 }],
+  };
+  const current = {
+    ...createEntry(CREATED),
+    situation: 'Эта',
+    emotions: [{ name: 'обида', intensity: 40 }],
+  };
+  localStorage.setItem(DIARY_KEY, JSON.stringify({ ...emptyDiary(), entries: [other, current] }));
+  window.location.hash = `#/entry/${current.id}`;
+  render(<App />);
+  const recentIn = async (sectionName: string) => {
+    await userEvent.click(
+      within(section(sectionName)).getByRole('button', { name: '+ Добавить эмоцию' }),
+    );
+    const dialog = screen.getByRole('dialog', { name: 'Выбор эмоции' });
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Список' }));
+    const recent = within(dialog).getByRole('region', { name: 'Недавние' });
+    const names = within(recent)
+      .getAllByRole('button')
+      .map((b) => b.textContent);
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Готово' }));
+    return names;
+  };
+  expect(await recentIn('Эмоции')).toEqual(['тревога', 'обида']);
+  expect(await recentIn('Результат')).toEqual(['обида', 'тревога']);
+});

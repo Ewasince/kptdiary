@@ -58,6 +58,15 @@ describe('presetPeriod', () => {
     expect(presetPeriod('all', ctx())).toEqual({ from: '2026-10-20', to: '2026-10-20' });
   });
 
+  test('all preset reaches the latest entry when it is dated after today', () => {
+    const entries = [
+      entry(localIso(2026, 9, 1)),
+      entry(localIso(2026, 9, 25)),
+      entry(localIso(2026, 10, 3), localIso(2026, 9, 20)),
+    ];
+    expect(presetPeriod('all', ctx(entries))).toEqual({ from: '2026-10-01', to: '2026-10-25' });
+  });
+
   test('sinceExport uses lastReportExportAt day', () => {
     const exportedAt = localIso(2026, 9, 5, 23, 30);
     expect(presetPeriod('sinceExport', ctx([], exportedAt))).toEqual({

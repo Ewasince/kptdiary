@@ -58,13 +58,16 @@ export function presetPeriod(preset: PeriodPreset, ctx: PresetContext): Period |
     case 'month':
       return { from: daysBefore(ctx.now, 29), to: today };
     case 'all': {
+      // An entry may be dated in the future; «Всё время» still has to include it.
       let from = today;
+      let to = today;
       for (const entry of ctx.entries) {
         if (entry.deletedAt !== null) continue;
         const key = localDayKey(entry.createdAt);
         if (key < from) from = key;
+        if (key > to) to = key;
       }
-      return { from, to: today };
+      return { from, to };
     }
     case 'sinceExport':
       if (ctx.lastReportExportAt === null) return null;

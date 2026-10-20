@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
 import { formatDayHeading, formatTime, isoToLocalInput, localInputToIso, plural } from '../format';
+import { plural as modelPlural } from '../../model/plural';
 
 const local = (y: number, m: number, d: number, h = 12, min = 0) =>
   new Date(y, m - 1, d, h, min).toISOString();
@@ -23,23 +24,8 @@ test('formatDayHeading appends the year when it differs from now', () => {
   expect(formatDayHeading(local(2025, 12, 31), local(2026, 1, 1))).toBe('Вчера, 31 декабря');
 });
 
-test('plural picks the Russian form', () => {
-  const forms = ['запись', 'записи', 'записей'] as const;
-  expect([0, 1, 2, 4, 5, 11, 12, 14, 21, 22, 25, 101, 111].map((n) => plural(n, forms))).toEqual([
-    'записей',
-    'запись',
-    'записи',
-    'записи',
-    'записей',
-    'записей',
-    'записей',
-    'записей',
-    'запись',
-    'записи',
-    'записей',
-    'запись',
-    'записей',
-  ]);
+test('plural is re-exported from the model', () => {
+  expect(plural).toBe(modelPlural);
 });
 
 test('isoToLocalInput formats local time for datetime-local', () => {
