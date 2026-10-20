@@ -1045,3 +1045,30 @@ body:has(.layout-desktop .export) {
 .layout-desktop .date-field input {
   width: 170px;
 }
+
+/* Service worker update toast */
+
+.update-toast {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 16px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--text);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 900px) {
+  .update-toast {
+    bottom: 24px;
+  }
+}

@@ -1,8 +1,11 @@
+import { useSyncExternalStore } from 'react';
 import { Layout } from './components/Layout';
+import { UpdateToast } from './components/UpdateToast';
 import { useRoute } from './router';
 import { EntryEditor } from './screens/EntryEditor';
 import { EntryList } from './screens/EntryList';
 import { ExportScreen } from './screens/ExportScreen';
+import { getSnapshot, subscribe } from './swState';
 import { DiaryProvider } from './useDiary';
 
 function Screen() {
@@ -17,9 +20,11 @@ function Screen() {
 }
 
 export default function App() {
+  const sw = useSyncExternalStore(subscribe, getSnapshot);
   return (
     <DiaryProvider>
       <Screen />
+      <UpdateToast needRefresh={sw.needRefresh} onUpdate={sw.update} />
     </DiaryProvider>
   );
 }
