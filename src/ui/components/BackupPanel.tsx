@@ -134,7 +134,7 @@ export function BackupPanel() {
           Импорт применён
         </p>
       )}
-      <p className="panel-info">{lastBackupLine(lastBackupAt, now())}</p>
+      <p className="panel-info panel-info--box">{lastBackupLine(lastBackupAt, now())}</p>
     </section>
   );
 }

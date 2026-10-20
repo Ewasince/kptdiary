@@ -3,10 +3,11 @@ import type { Route } from '../router';
 import { useDiary } from '../useDiary';
 import { useIsDesktop } from '../useMediaQuery';
 import { useNewEntry } from '../useNewEntry';
+import { ExportIcon, ListIcon, PlusIcon } from './Icons';
 
 const NAV_ITEMS = [
-  { label: 'Записи', href: '#/', section: 'list' },
-  { label: 'Экспорт', href: '#/export', section: 'export' },
+  { label: 'Записи', href: '#/', section: 'list', Icon: ListIcon },
+  { label: 'Экспорт', href: '#/export', section: 'export', Icon: ExportIcon },
 ] as const;
 
 /** The nav section a route belongs to; the entry editor is part of «Записи». */
@@ -24,7 +25,8 @@ function Nav({ route, className }: { route: Route; className: string }) {
           href={item.href}
           aria-current={item.section === current ? 'page' : undefined}
         >
-          {item.label}
+          <item.Icon />
+          <span>{item.label}</span>
         </a>
       ))}
     </nav>
@@ -60,7 +62,8 @@ export function Layout({ route, children }: { route: Route; children: ReactNode 
           <div className="topbar-inner">
             <span className="app-name">КПТ-дневник</span>
             <Nav route={route} className="topbar-nav" />
-            <button type="button" className="button-primary" onClick={onNew}>
+            <button type="button" className="button-primary button-icon" onClick={onNew}>
+              <PlusIcon />
               Новая запись
             </button>
           </div>

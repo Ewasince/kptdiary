@@ -166,7 +166,7 @@ function ReportPanel() {
           lastExport === null ? 'ещё не было' : formatDayMonth(localDayKey(lastExport))
         }`}
       </p>
-      <div className="panel-actions">
+      <div className="panel-actions panel-actions--report">
         <button
           type="button"
           className="button-primary"

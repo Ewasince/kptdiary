@@ -4,6 +4,7 @@ import { normalizeEmotionName } from '../../model/emotions';
 import { localDayKey } from '../../model/period';
 import type { CustomEmotion, EmotionRating, Entry } from '../../model/types';
 import { EmotionChip } from '../components/EmotionChip';
+import { PlusIcon } from '../components/Icons';
 import { formatDayHeading, formatMonthYear, formatTime, plural } from '../format';
 import { routeHash } from '../router';
 import { useDiary } from '../useDiary';
@@ -146,7 +147,8 @@ export function EntryList() {
   const unfinished = entries.filter((entry) => !isComplete(entry)).length;
 
   const newButton = (
-    <button type="button" className="button-primary new-entry" onClick={onNew}>
+    <button type="button" className="button-primary button-icon new-entry" onClick={onNew}>
+      <PlusIcon />
       Новая запись
     </button>
   );

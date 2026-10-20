@@ -21,7 +21,9 @@ export function EmotionChip({
   return (
     <span
       className={variant === 'after' ? 'chip chip-after' : 'chip'}
-      style={{ background: colors.background, borderColor: colors.border }}
+      style={
+        variant === 'after' ? undefined : { background: colors.background, borderColor: colors.border }
+      }
     >
       <span className="chip-label">{label}</span>
       {onRemove && (

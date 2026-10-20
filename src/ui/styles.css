@@ -9,6 +9,7 @@
   --ok-text: #1E6B3A;
   --ok-bg: #E4F3E9;
   --neutral: #9AA5AF;
+  --accent-soft: #E3EEF4;
 }
 
 body {
@@ -66,10 +67,13 @@ h1 {
 .bottom-nav a {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 2px;
   min-height: 56px;
   color: var(--muted);
+  font-size: 12px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -103,6 +107,10 @@ h1 {
   gap: 8px;
 }
 
+.topbar-nav a svg {
+  display: none;
+}
+
 .topbar-nav a {
   display: flex;
   align-items: center;
@@ -115,7 +123,7 @@ h1 {
 
 .topbar-nav a[aria-current='page'] {
   color: var(--accent);
-  background: var(--panel);
+  background: var(--accent-soft);
   font-weight: 600;
 }
 
@@ -132,6 +140,13 @@ h1 {
 }
 
 /* Controls */
+
+.button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 
 .button-primary {
   min-height: 44px;
@@ -159,8 +174,15 @@ h1 {
   white-space: nowrap;
 }
 
+.chip-label::first-letter,
+.intensity-label::first-letter {
+  text-transform: uppercase;
+}
+
 .chip-after {
+  border-color: #A9D3B7;
   color: var(--ok-text);
+  background: var(--ok-bg);
 }
 
 .chip-remove {
@@ -207,6 +229,7 @@ h1 {
 
 .page-heading-aside {
   color: var(--muted);
+  font-size: 14px;
 }
 
 .new-entry {
@@ -226,12 +249,16 @@ h1 {
 .day-heading {
   margin: 24px 0 8px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .entry-rows {
   display: grid;
+  /* minmax(0, …) lets a long situation shrink to its ellipsis instead of widening the card. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
   margin: 0;
   padding: 0;
@@ -247,6 +274,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--text);
+  background: #fff;
   text-decoration: none;
 }
 
@@ -263,11 +291,13 @@ h1 {
 
 .entry-time {
   color: var(--muted);
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 
 .entry-situation {
   min-width: 0;
+  font-weight: 500;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -275,12 +305,17 @@ h1 {
 
 .entry-emotions {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Desktop: the layout class follows useIsDesktop(), so CSS and markup always agree. */
+
+body:has(.layout-desktop) {
+  background: var(--panel);
+}
 
 .layout-desktop .container {
   padding: 24px 16px 48px;
@@ -320,6 +355,10 @@ h1 {
 .intensity-label {
   grid-area: label;
   font-weight: 500;
+}
+
+.intensity--row .intensity-label {
+  font-size: 15px;
 }
 
 .intensity-value {
@@ -494,11 +533,20 @@ h1 {
   flex: 1 1 220px;
   min-width: 0;
   min-height: 44px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
+  padding: 0 12px 0 40px;
+  border: 1px solid transparent;
   border-radius: 10px;
   color: var(--text);
+  /* Magnifier icon, stroke in the muted text colour. */
+  background: var(--panel)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235B6670' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4.5 4.5'/%3E%3C/svg%3E")
+    no-repeat 12px center;
   font: inherit;
+}
+
+.picker-search:focus {
+  border-color: var(--accent);
+  background-color: #fff;
 }
 
 .picker-body {
@@ -535,8 +583,10 @@ h1 {
   cursor: pointer;
 }
 
-.flower-petal:focus-visible,
-.flower-dyad:focus-visible {
+/* Chrome draws its focus ring around the bounding box of a focused SVG group; the
+   petal shows focus with its stroke instead, the blend label with an underline. */
+.flower-petal:focus,
+.flower-dyad:focus {
   outline: none;
 }
 
@@ -703,14 +753,27 @@ h1 {
 .editor-top {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+}
+
+.editor-when {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.editor-when-label {
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .editor-date {
   flex: 1;
   min-width: 0;
   min-height: 44px;
-  padding: 0 12px;
+  padding: 0 8px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: #fff;
@@ -724,7 +787,7 @@ h1 {
 
 .editor-heading {
   margin: 0 0 4px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -753,8 +816,14 @@ h1 {
 
 .editor-intensities {
   display: grid;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.editor-intensities .intensity {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--panel);
 }
 
 .thought-list {
@@ -781,7 +850,8 @@ h1 {
 
 .thought-title {
   margin: 0;
-  font-size: 15px;
+  color: var(--muted);
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -812,8 +882,10 @@ h1 {
   position: sticky;
   bottom: calc(56px + env(safe-area-inset-bottom));
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  text-align: center;
   margin: 24px -16px 0;
   padding: 12px 16px;
   border-top: 1px solid var(--border);
@@ -827,12 +899,13 @@ h1 {
 
 /* Editor on desktop: white panels on a grey page. */
 
-body:has(.layout-desktop .editor) {
-  background: var(--panel);
-}
 
 .layout-desktop .editor-top {
   gap: 12px;
+}
+
+.layout-desktop .editor-when {
+  flex: none;
 }
 
 .layout-desktop .editor-date {
@@ -863,12 +936,21 @@ body:has(.layout-desktop .editor) {
   gap: 16px;
 }
 
+/* Same height in both columns, so the thought lines up with the response box. */
+.layout-desktop .thought-columns .editor-textarea {
+  min-height: 90px;
+}
+
 .layout-desktop .editor-footer {
   position: static;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
   margin: 16px 0 0;
   padding: 0;
   border: none;
   background: transparent;
+  text-align: left;
 }
 
 /* Export screen */
@@ -982,10 +1064,26 @@ body:has(.layout-desktop .editor) {
 }
 
 .panel-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-top: 16px;
+}
+
+.panel-actions button {
+  /* Two buttons share a phone row; keep each label on one line. */
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.panel-actions--report > :first-child {
+  grid-column: 1 / -1;
+}
+
+.panel-info--box {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--panel);
 }
 
 .import-summary {
@@ -1022,12 +1120,17 @@ body:has(.layout-desktop .editor) {
 
 /* Export on desktop: wide panels on a grey page, presets and dates in one row. */
 
-body:has(.layout-desktop .export) {
-  background: var(--panel);
-}
-
 .layout-desktop .panel {
   padding: 20px 24px;
+}
+
+.layout-desktop .panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.layout-desktop .panel-actions button {
+  padding: 0 18px;
 }
 
 .layout-desktop .period-controls {
@@ -1067,8 +1170,14 @@ body:has(.layout-desktop .export) {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* On phones the editor's sticky «Готово» footer sits above the bottom nav; clear it too. */
+body:has(.layout-phone .editor-footer) .update-toast {
+  bottom: calc(160px + env(safe-area-inset-bottom));
+}
+
 @media (min-width: 900px) {
-  .update-toast {
+  .update-toast,
+  body:has(.layout-phone .editor-footer) .update-toast {
     bottom: 24px;
   }
 }

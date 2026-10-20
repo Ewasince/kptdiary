@@ -37,7 +37,7 @@ export function PickChip({ name, custom, selected, onToggle }: PickChipProps) {
       }
       onClick={() => onToggle(name)}
     >
-      {name}
+      <span className="chip-label">{name}</span>
     </button>
   );
 }

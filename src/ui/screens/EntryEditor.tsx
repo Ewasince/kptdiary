@@ -118,13 +118,15 @@ export function EntryEditor({ id }: { id: string }) {
         <a href="#/" className="icon-button" aria-label="Назад к списку">
           ←
         </a>
-        <input
-          type="datetime-local"
-          className="editor-date"
-          aria-label="Когда"
-          value={isoToLocalInput(current.createdAt)}
-          onChange={(e) => onDateChange(e.target.value)}
-        />
+        <label className="editor-when">
+          <span className="editor-when-label">Когда</span>
+          <input
+            type="datetime-local"
+            className="editor-date"
+            value={isoToLocalInput(current.createdAt)}
+            onChange={(e) => onDateChange(e.target.value)}
+          />
+        </label>
         <button
           type="button"
           className="icon-button"
