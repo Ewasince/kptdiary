@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json",
     "check": "npm run typecheck && npm run lint && npm run test"
   },
   "dependencies": {
