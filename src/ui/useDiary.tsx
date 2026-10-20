@@ -7,7 +7,10 @@ import { requestPersistentStorage } from '../storage/persist';
 
 export interface DiaryContextValue {
   diary: Diary;
-  /** The stored value could not be read; `diary` is empty and the value is kept. */
+  /**
+   * The stored value could not be read; `diary` is empty and the value is kept.
+   * Cleared by `replace`, which overwrites the stored value.
+   */
   corrupted: boolean;
   /** Last failed save, cleared by the next successful one. */
   saveError: StorageError | null;
@@ -27,6 +30,7 @@ function now(): string {
 export function DiaryProvider({ children }: { children: ReactNode }) {
   const [initial] = useState(() => loadDiary());
   const [diary, setDiary] = useState(initial.diary);
+  const [corrupted, setCorrupted] = useState(initial.corrupted);
   const [saveError, setSaveError] = useState<StorageError | null>(null);
   const diaryRef = useRef(initial.diary);
   const saverRef = useRef<DebouncedSaver | null>(null);
@@ -74,6 +78,8 @@ export function DiaryProvider({ children }: { children: ReactNode }) {
       saver.save(next);
       try {
         saver.flush();
+        // The unreadable stored value has just been overwritten.
+        setCorrupted(false);
       } catch (e) {
         setSaveError(e as StorageError);
       }
@@ -82,8 +88,8 @@ export function DiaryProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<DiaryContextValue>(
-    () => ({ diary, corrupted: initial.corrupted, saveError, update, replace, now }),
-    [diary, initial.corrupted, saveError, update, replace],
+    () => ({ diary, corrupted, saveError, update, replace, now }),
+    [diary, corrupted, saveError, update, replace],
   );
 
   return <DiaryContext.Provider value={value}>{children}</DiaryContext.Provider>;

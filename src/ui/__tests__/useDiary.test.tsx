@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
+import { emptyDiary } from '../../model/migrate';
 import { DIARY_KEY } from '../../storage/diaryStore';
 import { DiaryProvider, useDiary } from '../useDiary';
 
@@ -43,4 +44,12 @@ test('replace persists immediately', () => {
   act(() => result.current.replace(next));
   expect(result.current.diary).toEqual(next);
   expect(JSON.parse(localStorage.getItem(DIARY_KEY)!)).toEqual(next);
+});
+
+test('replace clears the corrupted flag', () => {
+  localStorage.setItem(DIARY_KEY, '{bad json');
+  const { result } = renderHook(() => useDiary(), { wrapper });
+  expect(result.current.corrupted).toBe(true);
+  act(() => result.current.replace(emptyDiary()));
+  expect(result.current.corrupted).toBe(false);
 });

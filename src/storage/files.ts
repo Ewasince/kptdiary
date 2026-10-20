@@ -11,6 +11,12 @@ export function downloadText(filename: string, text: string, mime: string): void
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
+/** Reads a file as text; uses FileReader since `Blob.text()` is missing in some environments. */
 export function readTextFile(file: File): Promise<string> {
-  return file.text();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => resolve(reader.result as string));
+    reader.addEventListener('error', () => reject(reader.error));
+    reader.readAsText(file);
+  });
 }

@@ -2,6 +2,7 @@ import { Layout } from './components/Layout';
 import { useRoute } from './router';
 import { EntryEditor } from './screens/EntryEditor';
 import { EntryList } from './screens/EntryList';
+import { ExportScreen } from './screens/ExportScreen';
 import { DiaryProvider } from './useDiary';
 
 function Screen() {
@@ -10,8 +11,7 @@ function Screen() {
     <Layout route={route}>
       {route.name === 'list' && <EntryList />}
       {route.name === 'entry' && <EntryEditor key={route.id} id={route.id} />}
-      {/* Placeholder until the export screen (Task 12) lands. */}
-      {route.name === 'export' && <p>Экспорт</p>}
+      {route.name === 'export' && <ExportScreen />}
     </Layout>
   );
 }

@@ -870,3 +870,178 @@ body:has(.layout-desktop .editor) {
   border: none;
   background: transparent;
 }
+
+/* Export screen */
+
+.button-secondary {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  color: var(--accent);
+  background: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-primary:disabled,
+.button-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.export-panels {
+  display: grid;
+  gap: 16px;
+}
+
+.panel {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+}
+
+.panel-head h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.panel-hint {
+  margin: 6px 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.period-controls {
+  display: grid;
+  gap: 12px;
+}
+
+.period-chip {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.period-chip[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.period-chip:disabled {
+  color: var(--neutral);
+  cursor: not-allowed;
+}
+
+.period-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.date-field {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.date-field input {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+}
+
+.panel-info {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.import-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.import-summary p {
+  margin: 0;
+}
+
+.panel-error,
+.panel-success {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.panel-error {
+  color: var(--warn-text);
+  background: var(--warn-bg);
+}
+
+.panel-success {
+  color: var(--ok-text);
+  background: var(--ok-bg);
+}
+
+/* Export on desktop: wide panels on a grey page, presets and dates in one row. */
+
+body:has(.layout-desktop .export) {
+  background: var(--panel);
+}
+
+.layout-desktop .panel {
+  padding: 20px 24px;
+}
+
+.layout-desktop .period-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.layout-desktop .period-dates {
+  display: flex;
+}
+
+.layout-desktop .date-field input {
+  width: 170px;
+}
