@@ -1,14 +1,30 @@
+import { useState } from 'react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 import { IntensityControl } from '../components/IntensityControl';
 
+/** Renders the control inside a parent that keeps the value, as the editor does. */
 function setup(value: number | null, min: 0 | 1 = 0, unit: '' | '%' = '%') {
   const onChange = vi.fn();
-  render(
-    <IntensityControl label="Уверенность" value={value} min={min} unit={unit} onChange={onChange} />,
-  );
+  function Harness() {
+    const [current, setCurrent] = useState(value);
+    return (
+      <IntensityControl
+        label="Уверенность"
+        value={current}
+        min={min}
+        unit={unit}
+        onChange={(n) => {
+          onChange(n);
+          setCurrent(n);
+        }}
+      />
+    );
+  }
+  const view = render(<Harness />);
   return {
+    unmount: view.unmount,
     onChange,
     range: screen.getByRole('slider', { name: 'Уверенность' }),
     number: screen.getByRole('spinbutton', { name: 'Значение: Уверенность' }),
@@ -41,10 +57,30 @@ describe('IntensityControl', () => {
   test('typing a number clamps to range', async () => {
     const { onChange, number } = setup(null, 0);
     await userEvent.type(number, '150');
-    expect(onChange).not.toHaveBeenCalled();
+    // 1 and 15 are in range and commit at once; 150 waits for blur.
+    expect(onChange.mock.calls).toEqual([[1], [15]]);
+    expect(number).toHaveValue(150);
     await userEvent.tab();
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(100);
+    expect(onChange).toHaveBeenLastCalledWith(100);
+    expect(onChange).toHaveBeenCalledTimes(3);
+    expect(number).toHaveValue(100);
+  });
+
+  test('typing a number in range commits it before blur', async () => {
+    const { onChange, number, unmount } = setup(null, 0);
+    await userEvent.type(number, '42');
+    expect(onChange).toHaveBeenLastCalledWith(42);
+    expect(number).toHaveValue(42);
+    unmount();
+    expect(onChange.mock.calls).toEqual([[4], [42]]);
+  });
+
+  test('blur after an in-range number does not commit it again', async () => {
+    const { onChange, number } = setup(10, 1);
+    await userEvent.clear(number);
+    await userEvent.type(number, '42');
+    await userEvent.tab();
+    expect(onChange.mock.calls).toEqual([[4], [42]]);
   });
 
   test('typing a number commits on enter', async () => {
@@ -84,7 +120,9 @@ describe('IntensityControl', () => {
     const { rerender } = render(<IntensityControl {...props} value={67} />);
     const number = screen.getByRole('spinbutton', { name: 'Значение: Уверенность' });
     await userEvent.clear(number);
-    await userEvent.type(number, '12');
+    // Out of range, so it stays a draft until blur.
+    await userEvent.type(number, '-5');
+    expect(onChange).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: '+5' }));
     expect(onChange).toHaveBeenLastCalledWith(70);
     rerender(<IntensityControl {...props} value={70} />);
@@ -99,7 +137,9 @@ describe('IntensityControl', () => {
     const { rerender } = render(<IntensityControl {...props} value={67} />);
     const number = screen.getByRole('spinbutton', { name: 'Значение: Уверенность' });
     await userEvent.clear(number);
-    await userEvent.type(number, '12');
+    // Out of range, so it stays a draft until blur.
+    await userEvent.type(number, '-5');
+    expect(onChange).not.toHaveBeenCalled();
     rerender(<IntensityControl {...props} value={30} />);
     expect(number).toHaveValue(30);
     fireEvent.blur(number);

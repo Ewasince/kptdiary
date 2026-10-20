@@ -35,7 +35,9 @@ export function IntensityControl({
   const isDesktop = useIsDesktop();
   const mode = layout ?? (isDesktop ? 'row' : 'stack');
   // While the number field is being edited it holds the raw text, so clamping
-  // does not fight the user mid-typing; the value is committed on blur or Enter.
+  // does not fight the user mid-typing. Text that is a whole number in range is
+  // committed at once, so leaving the screen without blurring keeps it; empty or
+  // out-of-range text is committed (clamped) on blur or Enter.
   // The draft remembers the value it was typed over: once the value changes from
   // anywhere else (slider, step button, parent), the draft is stale and dropped.
   const [draft, setDraft] = useState<{ text: string; base: number | null } | null>(null);
@@ -51,7 +53,19 @@ export function IntensityControl({
     if (text === null || text.trim() === '') return;
     const n = Number(text);
     if (Number.isNaN(n)) return;
-    onChange(clampIntensity(n, min, MAX));
+    const next = clampIntensity(n, min, MAX);
+    if (next !== value) onChange(next);
+  }
+
+  function onType(nextText: string) {
+    const n = Number(nextText);
+    if (nextText.trim() !== '' && Number.isInteger(n) && n >= min && n <= MAX) {
+      // Based on the new value, so the parent's update does not make it stale.
+      setDraft({ text: nextText, base: n });
+      onChange(n);
+    } else {
+      setDraft({ text: nextText, base: value });
+    }
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -71,7 +85,7 @@ export function IntensityControl({
         step={1}
         aria-label={`Значение: ${label}`}
         value={text ?? value ?? ''}
-        onChange={(e) => setDraft({ text: e.target.value, base: value })}
+        onChange={(e) => onType(e.target.value)}
         onBlur={commit}
         onKeyDown={onKeyDown}
       />
