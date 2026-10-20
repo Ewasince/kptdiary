@@ -1,5 +1,6 @@
 import { isComplete } from '../model/entry';
 import { chipColors, lookupEmotion } from '../model/emotions';
+import { pairEmotions } from '../model/pairs';
 import { MONTHS_GENITIVE, periodLabel, type Period } from '../model/period';
 import type { CustomEmotion, EmotionRating, Entry, Thought } from '../model/types';
 import { REPORT_CSS } from './styles';
@@ -53,13 +54,15 @@ function percent(value: number | null): string {
   return value === null ? NO_NUMBER : `${num(value)}%`;
 }
 
+/** Before-chips take the family colors; after-chips are green, as in the list. */
 function chip(rating: EmotionRating, custom: CustomEmotion[], after = false): string {
-  const colors = chipColors(lookupEmotion(rating.name, custom));
   const label =
     rating.intensity === null
       ? escapeHtml(rating.name)
       : `${escapeHtml(rating.name)} · ${num(rating.intensity)}`;
-  return `<span class="chip${after ? ' after' : ''}" style="background: ${colors.background}; border-color: ${colors.border}">${label}</span>`;
+  if (after) return `<span class="chip after">${label}</span>`;
+  const colors = chipColors(lookupEmotion(rating.name, custom));
+  return `<span class="chip" style="background: ${colors.background}; border-color: ${colors.border}">${label}</span>`;
 }
 
 function row(className: string, label: string, value: string): string {
@@ -78,23 +81,14 @@ function outcomeRow(entry: Entry, custom: CustomEmotion[]): string {
   if (entry.outcomeEmotions.length === 0) {
     return row('outcome', 'Эмоции: до → после', NOT_RECORDED);
   }
-  const beforeNames = new Set(entry.emotions.map((r) => r.name));
-  const pairs: string[] = [];
-  const onlyBefore: string[] = [];
-  for (const before of entry.emotions) {
-    const after = entry.outcomeEmotions.find((r) => r.name === before.name);
-    if (after) {
-      pairs.push(
-        `<span class="pair">${chip(before, custom)} → ${chip(after, custom, true)}</span>`,
-      );
-    } else {
-      onlyBefore.push(chip(before, custom));
+  const chips = pairEmotions(entry).map(({ before, after }) => {
+    if (before && after) {
+      return `<span class="pair">${chip(before, custom)} → ${chip(after, custom, true)}</span>`;
     }
-  }
-  const onlyAfter = entry.outcomeEmotions
-    .filter((r) => !beforeNames.has(r.name))
-    .map((r) => chip(r, custom, true));
-  return row('outcome', 'Эмоции: до → после', [...pairs, ...onlyBefore, ...onlyAfter].join(''));
+    if (before) return chip(before, custom);
+    return after ? chip(after, custom, true) : '';
+  });
+  return row('outcome', 'Эмоции: до → после', chips.join(''));
 }
 
 function thoughtRow(thought: Thought): string {
@@ -102,7 +96,7 @@ function thoughtRow(thought: Thought): string {
     thought.responseBelief === null
       ? textOrMissing(thought.response)
       : `${textOrMissing(thought.response)} <span class="muted">(ответ: ${num(thought.responseBelief)}%)</span>`;
-  const belief = `<span class="pair"><b>${percent(thought.belief)}</b> → <b class="after">${percent(thought.beliefAfter)}</b></span>`;
+  const belief = `<span class="pair"><b>${percent(thought.belief)}</b> → <b class="after-value">${percent(thought.beliefAfter)}</b></span>`;
   return `<tr><td>${textOrMissing(thought.text)}</td><td>${response}</td><td>${belief}</td></tr>`;
 }
 

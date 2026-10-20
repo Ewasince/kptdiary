@@ -28,7 +28,8 @@ h1 { grid-column: 1; margin: 0 0 4px; color: #5B6670; font-size: 11px; font-weig
 .chip::first-letter { text-transform: uppercase }
 .chip { display: inline-block; border: 1px solid; border-radius: 999px; padding: 1px 8px; margin: 1px 4px 1px 0; white-space: nowrap }
 .pair { white-space: nowrap; margin-right: 8px }
-.after { color: #1E6B3A }
+.chip.after { background: #E4F3E9; border-color: #A9D3B7; color: #1E6B3A }
+.after-value { color: #1E6B3A }
 .muted { color: #5B6670 }
 table.thoughts { width: 100%; border-collapse: collapse; margin: 8px 0; table-layout: fixed }
 table.thoughts th, table.thoughts td { border: 1px solid #D9DEE3; padding: 5px 7px; text-align: left; vertical-align: top }

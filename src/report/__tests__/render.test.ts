@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { escapeHtml, formatDateTime, renderReport } from '../render';
+import { REPORT_CSS } from '../styles';
 import type { Entry, Thought } from '../../model/types';
 
 /** Local-time ISO instant for the given local calendar date and time. */
@@ -141,7 +142,7 @@ describe('renderReport', () => {
     expect(cells[0].textContent).toBe('Я всё испортил');
     expect(cells[1].textContent).toBe('Одна ошибка не делает меня плохим (ответ: 70%)');
     expect(cells[2].innerHTML).toBe(
-      '<span class="pair"><b>85%</b> → <b class="after">40%</b></span>',
+      '<span class="pair"><b>85%</b> → <b class="after-value">40%</b></span>',
     );
   });
 
@@ -185,6 +186,32 @@ describe('renderReport', () => {
       ['грусть · 50', false],
       ['спокойствие · 40', true],
     ]);
+  });
+
+  test('pairs emotions by normalized name, as the list does', () => {
+    const card = parse(
+      render([
+        completeEntry({
+          emotions: [{ name: 'Вина', intensity: 80 }],
+          outcomeEmotions: [{ name: 'ВИНА', intensity: 30 }],
+        }),
+      ]),
+    ).querySelector('article.entry')!;
+    const pairs = card.querySelectorAll('.outcome .pair');
+    expect(pairs).toHaveLength(1);
+    expect(pairs[0].textContent).toBe('Вина · 80 → ВИНА · 30');
+  });
+
+  test('after-chips are green, without the family colors', () => {
+    const outcome = parse(render([completeEntry()])).querySelector('.outcome')!;
+    const after = [...outcome.querySelectorAll('.chip.after')];
+    expect(after).toHaveLength(2);
+    for (const chip of after) expect(chip.hasAttribute('style')).toBe(false);
+    const before = outcome.querySelector('.chip:not(.after)')!;
+    expect(before.getAttribute('style')).toMatch(/^background: /);
+    expect(REPORT_CSS).toContain(
+      '.chip.after { background: #E4F3E9; border-color: #A9D3B7; color: #1E6B3A }',
+    );
   });
 
   test('colors chips from the emotion catalog', () => {

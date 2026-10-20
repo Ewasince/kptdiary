@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { createEntry, createThought } from '../../model/entry';
 import { emptyDiary } from '../../model/migrate';
-import type { EmotionRating, Entry } from '../../model/types';
+import type { Entry } from '../../model/types';
 import { DIARY_KEY } from '../../storage/diaryStore';
 import App from '../App';
-import { groupEntriesByDay, pairEmotions } from '../screens/EntryList';
+import { groupEntriesByDay } from '../screens/EntryList';
 
 const local = (y: number, m: number, d: number, h = 12, min = 0) =>
   new Date(y, m - 1, d, h, min).toISOString();
@@ -178,21 +178,5 @@ describe('desktop', () => {
     expect(screen.getByText('3 записи, 2 не завершены')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Записи' })).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('button', { name: 'Новая запись' })).toBeInTheDocument();
-  });
-});
-
-describe('pairEmotions', () => {
-  const r = (name: string, intensity: number | null): EmotionRating => ({ name, intensity });
-
-  test('pairs by normalized name, then lists before-only and after-only', () => {
-    const e = entry(NOW, {
-      emotions: [r('Вина', 80), r('стыд', 50)],
-      outcomeEmotions: [r('радость', 20), r(' вина', 30)],
-    });
-    expect(pairEmotions(e)).toEqual([
-      { name: 'Вина', before: r('Вина', 80), after: r(' вина', 30) },
-      { name: 'стыд', before: r('стыд', 50), after: null },
-      { name: 'радость', before: null, after: r('радость', 20) },
-    ]);
   });
 });
