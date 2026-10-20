@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi } from 'vitest';
 import { IntensityControl } from '../components/IntensityControl';
@@ -76,6 +76,41 @@ describe('IntensityControl', () => {
     expect(screen.queryByText('%')).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '+1' }));
     expect(onChange).toHaveBeenCalledWith(51);
+  });
+
+  test('step button drops a pending typed draft', async () => {
+    const onChange = vi.fn();
+    const props = { label: 'Уверенность', min: 0, unit: '%', onChange } as const;
+    const { rerender } = render(<IntensityControl {...props} value={67} />);
+    const number = screen.getByRole('spinbutton', { name: 'Значение: Уверенность' });
+    await userEvent.clear(number);
+    await userEvent.type(number, '12');
+    fireEvent.click(screen.getByRole('button', { name: '+5' }));
+    expect(onChange).toHaveBeenLastCalledWith(70);
+    rerender(<IntensityControl {...props} value={70} />);
+    expect(number).toHaveValue(70);
+    fireEvent.blur(number);
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  test('outside value change drops a pending typed draft', async () => {
+    const onChange = vi.fn();
+    const props = { label: 'Уверенность', min: 0, unit: '%', onChange } as const;
+    const { rerender } = render(<IntensityControl {...props} value={67} />);
+    const number = screen.getByRole('spinbutton', { name: 'Значение: Уверенность' });
+    await userEvent.clear(number);
+    await userEvent.type(number, '12');
+    rerender(<IntensityControl {...props} value={30} />);
+    expect(number).toHaveValue(30);
+    fireEvent.blur(number);
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  test('step buttons are grouped under the label', () => {
+    setup(10);
+    const group = screen.getByRole('group', { name: 'Уверенность' });
+    expect(group).toHaveClass('intensity-steps');
+    expect(within(group).getAllByRole('button')).toHaveLength(6);
   });
 
   test('layout prop picks the class', () => {

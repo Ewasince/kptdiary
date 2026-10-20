@@ -36,13 +36,20 @@ export function IntensityControl({
   const mode = layout ?? (isDesktop ? 'row' : 'stack');
   // While the number field is being edited it holds the raw text, so clamping
   // does not fight the user mid-typing; the value is committed on blur or Enter.
-  const [draft, setDraft] = useState<string | null>(null);
+  // The draft remembers the value it was typed over: once the value changes from
+  // anywhere else (slider, step button, parent), the draft is stale and dropped.
+  const [draft, setDraft] = useState<{ text: string; base: number | null } | null>(null);
+  const text = draft !== null && draft.base === value ? draft.text : null;
+
+  function change(next: number) {
+    setDraft(null);
+    onChange(next);
+  }
 
   function commit() {
-    if (draft === null) return;
     setDraft(null);
-    if (draft.trim() === '') return;
-    const n = Number(draft);
+    if (text === null || text.trim() === '') return;
+    const n = Number(text);
     if (Number.isNaN(n)) return;
     onChange(clampIntensity(n, min, MAX));
   }
@@ -63,8 +70,8 @@ export function IntensityControl({
         max={MAX}
         step={1}
         aria-label={`Значение: ${label}`}
-        value={draft ?? value ?? ''}
-        onChange={(e) => setDraft(e.target.value)}
+        value={text ?? value ?? ''}
+        onChange={(e) => setDraft({ text: e.target.value, base: value })}
         onBlur={commit}
         onKeyDown={onKeyDown}
       />
@@ -81,15 +88,15 @@ export function IntensityControl({
         step={1}
         aria-label={label}
         value={value ?? NULL_START}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={(e) => change(Number(e.target.value))}
       />
-      <div className="intensity-steps">
+      <div className="intensity-steps" role="group" aria-label={label}>
         {STEPS.map((step) => (
           <button
             key={step}
             type="button"
             className={step < 0 ? 'step-minus' : 'step-plus'}
-            onClick={() => onChange(stepIntensity(value, step, min, MAX))}
+            onClick={() => change(stepIntensity(value, step, min, MAX))}
           >
             {stepLabel(step)}
           </button>
