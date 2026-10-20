@@ -396,3 +396,257 @@ h1 {
 .intensity-steps button:hover {
   background: var(--panel);
 }
+
+/* Emotion picker: phone sheet or desktop modal, chosen by useIsDesktop() in the component. */
+
+.picker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(31, 35, 40, 0.4);
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+.picker:focus {
+  outline: none;
+}
+
+.picker--sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 90vh;
+  border-radius: 20px 20px 0 0;
+  padding: 8px 16px env(safe-area-inset-bottom);
+}
+
+.picker--modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(980px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  border-radius: 16px;
+  padding: 16px 24px 24px;
+  box-shadow: 0 12px 40px rgba(31, 35, 40, 0.2);
+}
+
+.picker-handle {
+  width: 40px;
+  height: 5px;
+  margin: 0 auto 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.picker-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.picker-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 12px 0;
+}
+
+.view-toggle {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.view-toggle button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.view-toggle button[aria-pressed='true'] {
+  background: #fff;
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.15);
+}
+
+.picker-search {
+  flex: 1 1 220px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font: inherit;
+}
+
+.picker-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.picker-flower-view .flower {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.picker-columns {
+  display: grid;
+  grid-template-columns: 540px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.picker-aside {
+  display: grid;
+  gap: 8px;
+}
+
+/* Flower */
+
+.flower-petal,
+.flower-dyad {
+  cursor: pointer;
+}
+
+.flower-petal:focus-visible,
+.flower-dyad:focus-visible {
+  outline: none;
+}
+
+.flower-petal:focus-visible ellipse {
+  stroke: var(--text);
+  stroke-width: 2;
+}
+
+.flower-dyad {
+  /* A transparent stroke widens the hit area around the small text. */
+  stroke: transparent;
+  stroke-width: 16px;
+}
+
+.flower-dyad:focus-visible {
+  text-decoration: underline;
+}
+
+.flower-label {
+  pointer-events: none;
+}
+
+/* Picker chips and sections */
+
+.chip-section {
+  margin-top: 12px;
+}
+
+.chip-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip--pick {
+  min-height: 38px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.chip--dyad {
+  border-style: dashed;
+}
+
+.chip--selected {
+  border: 2px solid var(--text);
+}
+
+.chip-divider {
+  align-self: stretch;
+  width: 1px;
+  margin: 0 4px;
+  background: var(--border);
+}
+
+.picker-add {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.picker-add-button {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px dashed var(--accent);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.picker-add-families {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.family-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
