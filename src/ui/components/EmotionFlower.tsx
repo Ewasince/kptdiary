@@ -74,7 +74,7 @@ export function EmotionFlower({
   }, [selectedFamily]);
 
   function selectFamily(id: EmotionFamily) {
-    if (document.activeElement === petalRefs.current.get(id)) refocus.current = id;
+    refocus.current = document.activeElement === petalRefs.current.get(id) ? id : null;
     onSelectFamily(id);
   }
 

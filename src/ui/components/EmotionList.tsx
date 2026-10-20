@@ -15,7 +15,10 @@ export interface PickChipProps {
   onToggle(name: string): void;
 }
 
-/** Toggle chip for the picker; blends stay white with a dashed border until selected. */
+/**
+ * Toggle chip for the picker; blends stay white until selected. Selected chips drop the
+ * family border colour so `.chip--selected` can draw its dark border.
+ */
 export function PickChip({ name, custom, selected, onToggle }: PickChipProps) {
   const info = lookupEmotion(name, custom);
   const colors = chipColors(info);
@@ -27,15 +30,34 @@ export function PickChip({ name, custom, selected, onToggle }: PickChipProps) {
       type="button"
       className={className}
       aria-pressed={selected}
-      style={{
-        background: info.dyad && !selected ? '#fff' : colors.background,
-        borderColor: colors.border,
-      }}
+      style={
+        selected
+          ? { background: colors.background }
+          : { background: info.dyad ? '#fff' : colors.background, borderColor: colors.border }
+      }
       onClick={() => onToggle(name)}
     >
       {name}
     </button>
   );
+}
+
+export interface PickChipsOptions {
+  selectedNames: string[];
+  custom: CustomEmotion[];
+  onToggle(name: string): void;
+}
+
+export function pickChips(names: string[], { selectedNames, custom, onToggle }: PickChipsOptions) {
+  return names.map((name) => (
+    <PickChip
+      key={name}
+      name={name}
+      custom={custom}
+      selected={selectedNames.includes(name)}
+      onToggle={onToggle}
+    />
+  ));
 }
 
 export interface ChipSectionProps {
@@ -66,16 +88,7 @@ export interface EmotionListProps {
 }
 
 export function EmotionList({ selectedNames, recent, custom, onToggle }: EmotionListProps) {
-  const chips = (names: string[]) =>
-    names.map((name) => (
-      <PickChip
-        key={name}
-        name={name}
-        custom={custom}
-        selected={selectedNames.includes(name)}
-        onToggle={onToggle}
-      />
-    ));
+  const chips = (names: string[]) => pickChips(names, { selectedNames, custom, onToggle });
   const own = custom.map((c) => normalizeEmotionName(c.name));
 
   return (

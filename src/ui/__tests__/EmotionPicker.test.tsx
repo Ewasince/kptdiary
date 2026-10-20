@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { FAMILIES } from '../../model/emotions';
@@ -72,7 +73,7 @@ describe('EmotionPicker', () => {
   test('search filters and adds custom', async () => {
     const { onAddCustom, onToggle } = setup();
     const input = screen.getByPlaceholderText('Найти или добавить свою…');
-    await userEvent.type(input, 'выгор');
+    await userEvent.type(input, '  Выгор ');
     expect(screen.getByRole('button', { name: 'Добавить „выгор“' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'радость' })).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'Без семьи' }));
@@ -126,6 +127,46 @@ describe('EmotionPicker', () => {
       'aria-pressed',
       'true',
     );
+  });
+
+  test('toggling a chip keeps focus on it when onClose is inline', async () => {
+    function Harness() {
+      const [selected, setSelected] = useState<string[]>([]);
+      return (
+        <EmotionPicker
+          open
+          selectedNames={selected}
+          recent={[]}
+          custom={[]}
+          onToggle={(name) =>
+            setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]))
+          }
+          onAddCustom={() => {}}
+          onClose={() => {}}
+        />
+      );
+    }
+    render(<Harness />);
+    await userEvent.click(screen.getByRole('button', { name: 'страх' }));
+    const section = screen.getByRole('region', { name: 'страх' });
+    const chip = within(section).getByRole('button', { name: 'тревога' });
+    await userEvent.click(chip);
+    expect(chip).toHaveAttribute('aria-pressed', 'true');
+    expect(chip).toHaveFocus();
+  });
+
+  test('selected chip uses the selected border, not the family colour', async () => {
+    setup({ selectedNames: ['ужас', 'трепет'] });
+    await userEvent.click(screen.getByRole('button', { name: 'страх' }));
+    const section = screen.getByRole('region', { name: 'страх' });
+    for (const name of ['ужас', 'трепет']) {
+      const chip = within(section).getByRole('button', { name });
+      expect(chip).toHaveClass('chip--selected');
+      expect(chip.style.borderColor).toBe('');
+    }
+    const plain = within(section).getByRole('button', { name: 'тревога' });
+    expect(plain).not.toHaveClass('chip--selected');
+    expect(plain.style.borderColor).not.toBe('');
   });
 
   test('desktop shows selected chips with remove and recent', async () => {

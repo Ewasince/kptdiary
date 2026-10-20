@@ -10,7 +10,7 @@ import type { CustomEmotion, EmotionFamily } from '../../model/types';
 import { useIsDesktop } from '../useMediaQuery';
 import { EmotionChip } from './EmotionChip';
 import { EmotionFlower } from './EmotionFlower';
-import { ChipSection, EmotionList, PickChip } from './EmotionList';
+import { ChipSection, EmotionList, pickChips } from './EmotionList';
 
 const SEARCH_PLACEHOLDER = 'Найти или добавить свою…';
 const DESKTOP_FLOWER_SIZE = 540;
@@ -43,11 +43,12 @@ export function EmotionPicker({
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!open) {
-      setQuery('');
-      return;
-    }
-    dialogRef.current?.focus();
+    if (open) dialogRef.current?.focus();
+    else setQuery('');
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
     };
@@ -58,16 +59,7 @@ export function EmotionPicker({
   if (!open) return null;
 
   const normalized = normalizeEmotionName(query);
-  const chips = (names: string[]) =>
-    names.map((name) => (
-      <PickChip
-        key={name}
-        name={name}
-        custom={custom}
-        selected={selectedNames.includes(name)}
-        onToggle={onToggle}
-      />
-    ));
+  const chips = (names: string[]) => pickChips(names, { selectedNames, custom, onToggle });
 
   function addCustom(family: EmotionFamily | null) {
     onAddCustom(normalized, family);
@@ -84,7 +76,7 @@ export function EmotionPicker({
         {!known && (
           <div className="picker-add">
             <button type="button" className="picker-add-button" onClick={() => addCustom(null)}>
-              {`Добавить „${query.trim()}“`}
+              {`Добавить „${normalized}“`}
             </button>
             <div className="picker-add-families" role="group" aria-label="Семья">
               {FAMILIES.map((family) => (
