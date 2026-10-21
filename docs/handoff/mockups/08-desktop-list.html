@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПК: список записей</title>
+<!-- Макет «ПК: список записей», размер артборда 1280×800 px. Сконвертирован из дизайн-холста; открывается без зависимостей. -->
+
+<style>
+body{margin:0}
+a{color:#2F6B8C}a:hover{color:#1F4F6B}
+</style>
+
+</head>
+<body>
+
+<div style="min-height: 800px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F6F8; color: #1F2328; font-family: Inter, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, DejaVu Sans, sans-serif; font-size: 15px; line-height: 1.45">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D9DEE3">
+    <div style="max-width: 1040px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 64px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 28px">
+        <span style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em">КПТ-дневник</span>
+        <nav aria-label="Разделы" style="display: flex; gap: 4px">
+          <a href="08-desktop-list.html" aria-current="page" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px; background: #EEF3F6; color: #2F6B8C; font-weight: 600; font-size: 14px; text-decoration: none">Записи</a>
+          <a href="12-desktop-export.html" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px; color: #5B6670; font-weight: 500; font-size: 14px; text-decoration: none">Экспорт</a>
+        </nav>
+      </div>
+      <a href="09-desktop-entry.html" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 10px; background: #2F6B8C; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+        <span>Новая запись</span>
+      </a>
+    </div>
+  </header>
+
+  <main style="max-width: 1040px; width: 100%; margin: 0 auto; padding: 28px 32px 40px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Записи</h1>
+      <span style="font-size: 14px; color: #5B6670">42 записи, 3 не завершены</span>
+    </div>
+
+    <div style="font-size: 12px; font-weight: 600; color: #5B6670; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 6px">Сегодня, 20 октября</div>
+
+    <a href="09-desktop-entry.html" style="display: grid; grid-template-columns: 72px minmax(0, 1fr) 360px; gap: 20px; align-items: center; padding: 16px 20px; border-radius: 12px; border: 1px solid #D9DEE3; background: #FFFFFF; text-decoration: none; color: #1F2328">
+      <span style="font-size: 14px; color: #5B6670">18:40</span>
+      <span style="font-size: 15px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Начальник не ответил на сообщение, хотя был онлайн</span>
+      <span style="display: flex; flex-wrap: nowrap; white-space: nowrap; gap: 6px; align-items: center">
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #EEF3F6">Тревога 70</span>
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #EEF3F6">Обида 40</span>
+      <span style="margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #8A5A00; background: #FFF4DB; padding: 4px 10px; border-radius: 999px">
+        <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+        <span>Не завершена</span>
+      </span>
+      </span>
+    </a>
+
+    <div style="font-size: 12px; font-weight: 600; color: #5B6670; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 10px">Вчера, 19 октября</div>
+
+    <a href="09-desktop-entry.html" style="display: grid; grid-template-columns: 72px minmax(0, 1fr) 360px; gap: 20px; align-items: center; padding: 16px 20px; border-radius: 12px; border: 1px solid #D9DEE3; background: #FFFFFF; text-decoration: none; color: #1F2328">
+      <span style="font-size: 14px; color: #5B6670">22:15</span>
+      <span style="font-size: 15px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Забыл поздравить друга с днём рождения, вспомнил вечером, когда увидел его сторис</span>
+      <span style="display: flex; flex-wrap: nowrap; white-space: nowrap; gap: 6px; align-items: center">
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #EEF3F6">Вина 80</span>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #E4F3E9; color: #1E6B3A">Вина 30</span>
+      </span>
+    </a>
+
+    <a href="09-desktop-entry.html" style="display: grid; grid-template-columns: 72px minmax(0, 1fr) 360px; gap: 20px; align-items: center; padding: 16px 20px; border-radius: 12px; border: 1px solid #D9DEE3; background: #FFFFFF; text-decoration: none; color: #1F2328">
+      <span style="font-size: 14px; color: #5B6670">09:30</span>
+      <span style="font-size: 15px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Проснулся с мыслью, что ничего не успеваю</span>
+      <span style="display: flex; flex-wrap: nowrap; white-space: nowrap; gap: 6px; align-items: center">
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #EEF3F6">Тревога 60</span>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #E4F3E9; color: #1E6B3A">Тревога 25</span>
+      </span>
+    </a>
+
+    <div style="font-size: 12px; font-weight: 600; color: #5B6670; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 10px">17 октября</div>
+
+    <a href="09-desktop-entry.html" style="display: grid; grid-template-columns: 72px minmax(0, 1fr) 360px; gap: 20px; align-items: center; padding: 16px 20px; border-radius: 12px; border: 1px solid #D9DEE3; background: #FFFFFF; text-decoration: none; color: #1F2328">
+      <span style="font-size: 14px; color: #5B6670">13:05</span>
+      <span style="font-size: 15px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">На созвоне перебили, когда рассказывал про результаты</span>
+      <span style="display: flex; flex-wrap: nowrap; white-space: nowrap; gap: 6px; align-items: center">
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #EEF3F6">Раздражение 55</span>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B6670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        <span style="font-size: 13px; padding: 4px 10px; border-radius: 999px; background: #E4F3E9; color: #1E6B3A">Раздражение 20</span>
+      </span>
+    </a>
+
+  </main>
+</div>
+
+</body>
+</html>

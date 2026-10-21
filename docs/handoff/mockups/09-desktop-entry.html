@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПК: запись</title>
+<!-- Макет «ПК: запись», размер артборда 1280×1320 px. Сконвертирован из дизайн-холста; открывается без зависимостей. -->
+
+<style>
+body{margin:0}
+a{color:#2F6B8C}a:hover{color:#1F4F6B}
+textarea{font-family:inherit}
+</style>
+
+</head>
+<body>
+
+<div style="min-height: 1320px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F6F8; color: #1F2328; font-family: Inter, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, DejaVu Sans, sans-serif; font-size: 15px; line-height: 1.45">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #D9DEE3">
+    <div style="max-width: 1040px; margin: 0 auto; padding: 0 32px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 64px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 28px">
+        <span style="font-size: 18px; font-weight: 700; letter-spacing: -0.01em">КПТ-дневник</span>
+        <nav aria-label="Разделы" style="display: flex; gap: 4px">
+          <a href="08-desktop-list.html" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px; color: #5B6670; font-weight: 500; font-size: 14px; text-decoration: none">Записи</a>
+          <a href="12-desktop-export.html" style="display: flex; align-items: center; height: 40px; padding: 0 14px; border-radius: 10px; color: #5B6670; font-weight: 500; font-size: 14px; text-decoration: none">Экспорт</a>
+        </nav>
+      </div>
+      <span style="font-size: 13px; color: #5B6670">Черновик сохранён только что</span>
+    </div>
+  </header>
+
+  <main style="max-width: 1040px; width: 100%; margin: 0 auto; padding: 28px 32px 40px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 14px">
+        <a href="08-desktop-list.html" aria-label="Назад к списку" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; border: 1px solid #D9DEE3; background: #FFFFFF; color: #1F2328; text-decoration: none">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+        </a>
+        <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em">Запись</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #5B6670">
+          <span>Когда</span>
+          <input type="datetime-local" value="2026-10-20T18:40" style="font-family: inherit; font-size: 14px; color: #1F2328; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 10px; height: 40px; box-sizing: border-box; background: #FFFFFF">
+        </label>
+        <button type="button" style="display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #D9DEE3; background: #FFFFFF; color: #5B6670; font-family: inherit; font-size: 14px; font-weight: 500">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
+          <span>Удалить</span>
+        </button>
+      </div>
+    </div>
+
+    <section style="display: flex; flex-direction: column; gap: 10px; padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #D9DEE3">
+      <label for="situation" style="font-size: 17px; font-weight: 700">Ситуация</label>
+      <div style="font-size: 13px; color: #5B6670">Событие, мысли, образы или воспоминания, вызвавшие неприятную эмоцию</div>
+      <textarea id="situation" rows="3" style="width: 100%; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.45; resize: vertical; color: #1F2328">Начальник не ответил на сообщение, хотя был онлайн</textarea>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #D9DEE3">
+      <div style="font-size: 17px; font-weight: 700">Эмоции</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <button type="button" aria-label="Убрать: Тревога" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 14px; border-radius: 999px; border: 1px solid #2F6B8C; background: #2F6B8C; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500"><span>Тревога</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <button type="button" aria-label="Убрать: Обида" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 14px; border-radius: 999px; border: 1px solid #2F6B8C; background: #2F6B8C; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500"><span>Обида</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <a href="10-desktop-picker-list.html" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px dashed #9AA5AF; color: #2F6B8C; font-size: 14px; font-weight: 600; text-decoration: none">+ Добавить эмоцию</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Тревога</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="1" max="100" value="70" aria-label="Тревога" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="1" max="100" value="70" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span></span></label></div>
+        <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Обида</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="1" max="100" value="40" aria-label="Обида" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="1" max="100" value="40" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span></span></label></div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #D9DEE3">
+      <div style="font-size: 17px; font-weight: 700">Автоматические мысли</div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; padding: 18px 20px; border-radius: 12px; border: 1px solid #D9DEE3">
+        <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center">
+          <span style="font-size: 13px; font-weight: 600; color: #5B6670">Мысль 1</span>
+          <button type="button" aria-label="Удалить мысль" style="width: 32px; height: 32px; border: 0; background: transparent; color: #5B6670; border-radius: 8px">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <label for="th1" style="font-size: 14px; font-weight: 600">Мысль</label>
+          <textarea id="th1" rows="4" style="width: 100%; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.45; resize: vertical; color: #1F2328">Он недоволен мной и думает, как меня уволить</textarea>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <label for="th1r" style="font-size: 14px; font-weight: 600">Рациональный ответ</label>
+          <textarea id="th1r" rows="4" style="width: 100%; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.45; resize: vertical; color: #1F2328">Он часто отвечает с задержкой, на прошлой неделе тоже. Статус онлайн не значит, что он читает именно мой чат.</textarea>
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Насколько убедительна</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="0" max="100" value="85" aria-label="Насколько убедительна" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="0" max="100" value="85" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span>%</span></label></div>
+          <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Убедительность ответа</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="0" max="100" value="60" aria-label="Убедительность ответа" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="0" max="100" value="60" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span>%</span></label></div>
+          <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Мысль убедительна сейчас</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="0" max="100" value="40" aria-label="Мысль убедительна сейчас" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="0" max="100" value="40" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span>%</span></label></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; padding: 18px 20px; border-radius: 12px; border: 1px solid #D9DEE3">
+        <div style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center">
+          <span style="font-size: 13px; font-weight: 600; color: #5B6670">Мысль 2</span>
+          <button type="button" aria-label="Удалить мысль" style="width: 32px; height: 32px; border: 0; background: transparent; color: #5B6670; border-radius: 8px">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <label for="th2" style="font-size: 14px; font-weight: 600">Мысль</label>
+          <textarea id="th2" rows="4" style="width: 100%; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.45; resize: vertical; color: #1F2328">Я написал что-то глупое</textarea>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <label for="th2r" style="font-size: 14px; font-weight: 600">Рациональный ответ</label>
+          <textarea id="th2r" rows="4" placeholder="Заполню позже…" style="width: 100%; box-sizing: border-box; border: 1px dashed #B8C0C8; border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.45; resize: vertical; color: #1F2328; background: #FAFBFC"></textarea>
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Насколько убедительна</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="0" max="100" value="50" aria-label="Насколько убедительна" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="0" max="100" value="50" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span>%</span></label></div>
+          <div style="font-size: 13px; color: #8A5A00; display: flex; align-items: center; gap: 6px">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            <span>Ответ и переоценка ещё не заполнены</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" style="align-self: flex-start; height: 40px; padding: 0 16px; border-radius: 10px; border: 1px dashed #9AA5AF; background: #FFFFFF; color: #2F6B8C; font-family: inherit; font-size: 14px; font-weight: 600">+ Ещё мысль</button>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border-radius: 14px; background: #FFFFFF; border: 1px solid #D9DEE3">
+      <div style="font-size: 17px; font-weight: 700">Результат</div>
+      <div style="font-size: 13px; color: #5B6670">Какая эмоция осталась после ответа и насколько она сильна</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <button type="button" aria-label="Убрать: Тревога" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 14px; border-radius: 999px; border: 1px solid #2F6B8C; background: #2F6B8C; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 500"><span>Тревога</span><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <a href="10-desktop-picker-list.html" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px dashed #9AA5AF; color: #2F6B8C; font-size: 14px; font-weight: 600; text-decoration: none">+ Добавить эмоцию</a>
+      </div>
+      <div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; align-items: center; gap: 12px 16px; padding: 10px 14px; box-sizing: border-box; border-radius: 10px; background: #F4F6F8; color: #1F2328"><span style="font-size: 14px; font-weight: 500">Тревога</span><div style="display: flex; flex-direction: column; gap: 6px"><input type="range" min="1" max="100" value="30" aria-label="Тревога" style="width: 100%; height: 24px; margin: 0; accent-color: #2F6B8C"><div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; max-width: 420px; width: 100%; margin: 0 auto"><button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−10</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #A12F2F; padding: 0">−1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+1</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+5</button>
+<button type="button" style="height: 30px; border-radius: 7px; border: 1px solid #D9DEE3; background: #FFFFFF; font-family: inherit; font-size: 12px; font-weight: 600; color: #1E6B3A; padding: 0">+10</button></div></div><label style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600; color: #2F6B8C"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Значение</span><input type="number" min="1" max="100" value="30" style="width: 60px; height: 34px; box-sizing: border-box; border: 1px solid #D9DEE3; border-radius: 8px; padding: 0 8px; font-family: inherit; font-size: 15px; font-weight: 600; color: #2F6B8C; text-align: right; background: #FFFFFF"><span></span></label></div>
+    </section>
+
+    <div style="display: flex; align-items: center; gap: 16px">
+      <a href="08-desktop-list.html" style="display: flex; align-items: center; justify-content: center; height: 44px; padding: 0 28px; border-radius: 10px; background: #2F6B8C; color: #FFFFFF; font-weight: 600; font-size: 15px; text-decoration: none">Готово</a>
+      <span style="font-size: 13px; color: #5B6670">Изменения сохраняются автоматически</span>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+[
+  {
+    "file": "01-phone-list.html",
+    "png": "01-phone-list.png",
+    "title": "Телефон: список записей",
+    "w": 390,
+    "h": 844,
+    "fill": false
+  },
+  {
+    "file": "02-phone-entry.html",
+    "png": "02-phone-entry.png",
+    "title": "Телефон: запись",
+    "w": 390,
+    "h": 2120,
+    "fill": false
+  },
+  {
+    "file": "03-phone-picker-list.html",
+    "png": "03-phone-picker-list.png",
+    "title": "Телефон: выбор эмоции, вид «Список» (шторка)",
+    "w": 390,
+    "h": 844,
+    "fill": false
+  },
+  {
+    "file": "04-phone-picker-flower.html",
+    "png": "04-phone-picker-flower.png",
+    "title": "Телефон: выбор эмоции, вид «Цветок» (шторка, основной)",
+    "w": 390,
+    "h": 844,
+    "fill": false
+  },
+  {
+    "file": "05-phone-export.html",
+    "png": "05-phone-export.png",
+    "title": "Телефон: экспорт",
+    "w": 390,
+    "h": 844,
+    "fill": false
+  },
+  {
+    "file": "06-report-a4.html",
+    "png": "06-report-a4.png",
+    "title": "Отчёт для терапевта, страница A4",
+    "w": 794,
+    "h": 1123,
+    "fill": false
+  },
+  {
+    "file": "07-component-intensity.html",
+    "png": "07-component-intensity.png",
+    "title": "Компонент «уровень» (телефонная раскладка)",
+    "w": 390,
+    "h": 140,
+    "fill": false
+  },
+  {
+    "file": "08-desktop-list.html",
+    "png": "08-desktop-list.png",
+    "title": "ПК: список записей",
+    "w": 1280,
+    "h": 800,
+    "fill": true
+  },
+  {
+    "file": "09-desktop-entry.html",
+    "png": "09-desktop-entry.png",
+    "title": "ПК: запись",
+    "w": 1280,
+    "h": 1320,
+    "fill": true
+  },
+  {
+    "file": "10-desktop-picker-list.html",
+    "png": "10-desktop-picker-list.png",
+    "title": "ПК: выбор эмоции, вид «Список» (окно)",
+    "w": 1280,
+    "h": 800,
+    "fill": false
+  },
+  {
+    "file": "11-desktop-picker-flower.html",
+    "png": "11-desktop-picker-flower.png",
+    "title": "ПК: выбор эмоции, вид «Цветок» (окно, основной)",
+    "w": 1280,
+    "h": 800,
+    "fill": false
+  },
+  {
+    "file": "12-desktop-export.html",
+    "png": "12-desktop-export.png",
+    "title": "ПК: экспорт",
+    "w": 1280,
+    "h": 800,
+    "fill": true
+  }
+]
